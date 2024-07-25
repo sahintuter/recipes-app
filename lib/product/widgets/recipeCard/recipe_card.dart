@@ -12,7 +12,7 @@ class RecipeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dismissible(
       key: Key(recipe.id.toString()),
-      direction: DismissDirection.endToStart,
+      direction: DismissDirection.startToEnd,
       onDismissed: (direction) {
         FavoritsService.addToFavorites(recipe);
         ScaffoldMessenger(
@@ -24,7 +24,7 @@ class RecipeCard extends StatelessWidget {
 
       background: Container(
         color: Colors.red[400],
-        alignment: Alignment.centerRight,
+        alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: const Icon(Icons.favorite, color: Colors.white),
       ),
