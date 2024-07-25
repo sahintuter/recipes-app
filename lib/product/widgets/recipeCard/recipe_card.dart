@@ -15,13 +15,12 @@ class RecipeCard extends StatelessWidget {
       direction: DismissDirection.startToEnd,
       onDismissed: (direction) {
         FavoritsService.addToFavorites(recipe);
-        ScaffoldMessenger(
-          child: SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
             content: Text("${recipe.name} favorilere eklendi"),
           ),
         );
       },
-
       background: Container(
         color: Colors.red[400],
         alignment: Alignment.centerLeft,
