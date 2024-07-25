@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipes_app/product/models/recipesModel.dart';
+import 'package:recipes_app/product/services/favorits_service.dart';
 import 'package:recipes_app/product/utility/color_utility.dart';
 
 class RecipeCard extends StatelessWidget {
@@ -9,18 +10,37 @@ class RecipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: ColorUtility.recipeCardBg,
-      margin: const EdgeInsets.all(8.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
+    return Dismissible(
+      key: Key(recipe.id.toString()),
+      direction: DismissDirection.endToStart,
+      onDismissed: (direction) {
+        FavoritsService.addToFavorites(recipe);
+        ScaffoldMessenger(
+          child: SnackBar(
+            content: Text("${recipe.name} favorilere eklendi"),
+          ),
+        );
+      },
+
+      background: Container(
+        color: Colors.red[400],
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: const Icon(Icons.favorite, color: Colors.white),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildRecipeImage(),
-          _buildRecipeDetails(),
-        ],
+      child: Card(
+        color: ColorUtility.recipeCardBg,
+        margin: const EdgeInsets.all(8.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildRecipeImage(),
+            _buildRecipeDetails(),
+          ],
+        ),
       ),
     );
   }
@@ -88,7 +108,9 @@ class RecipeCard extends StatelessWidget {
     return Align(
       alignment: Alignment.bottomRight,
       child: Text(
-        recipe.cookTimeMinutes != null ? '${recipe.cookTimeMinutes} min' : 'No Time Info',
+        recipe.cookTimeMinutes != null
+            ? '${recipe.cookTimeMinutes} min'
+            : 'No Time Info',
         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
     );
