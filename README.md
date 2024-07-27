@@ -1,4 +1,4 @@
-# recipes_app
+# Simple recipes_app
 
 ### Dart/Flutter 
 
